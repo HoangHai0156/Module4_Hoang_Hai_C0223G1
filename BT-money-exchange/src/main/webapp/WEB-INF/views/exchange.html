@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Money Exchange</title>
+</head>
+<body>
+  <form action="/exchange" method="get">
+    <div>
+      <label for="usd">USD</label>
+      <input type="number" name="usd" id="usd" value="" required>
+    </div>
+    <div>
+      <button>Exchange</button>
+    </div>
+    <div>
+      <p>VND: <th:value /> </p>
+    </div>
+  </form>
+</body>
+</html>

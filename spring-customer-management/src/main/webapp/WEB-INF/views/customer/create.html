@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Create Customer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Responsive bootstrap 4 admin template" name="description">
+    <meta content="Coderthemes" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <th:block th:replace="/layout/headcss" />
+
+</head>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+
+    <!-- Topbar Start -->
+    <th:block th:replace="/layout/top" />
+    <!-- end Topbar -->
+    <!-- ========== Left Sidebar Start ========== -->
+    <th:block th:replace="/layout/left" />
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+        <div class="content">
+
+            <!-- Start Content-->
+            <form>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" name="fullName" id="fullName">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <button>Submit</button>
+                    </div>
+                </div>
+            </form>
+            <!-- end container-fluid -->
+
+        </div>
+        <!-- end content -->
+
+
+        <!-- Footer Start -->
+        <th:block th:replace="/layout/footer" />
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+</div>
+<!-- END wrapper -->
+
+
+<!-- Right Sidebar -->
+<th:block th:replace="/layout/right" />
+
+<th:block th:replace="/layout/js" />
+</body>
+
+</html>
