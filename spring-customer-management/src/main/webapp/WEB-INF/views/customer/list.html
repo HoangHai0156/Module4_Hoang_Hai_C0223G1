@@ -15,6 +15,7 @@
 
 <body>
 
+
 <!-- Begin page -->
 <div id="wrapper">
 
@@ -34,9 +35,61 @@
         <div class="content">
 
             <!-- Start Content-->
-            <div class="row justify-content-center">
-                <div class="col-lg-4 text-center mt-5">
-                    <h1>Customer List</h1>
+            <div th:if="${deleteMess}" class="row d-flex justify-content-center">
+                    <script>
+                        window.onload = function (){
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Xóa thành công',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    </script>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title mb-4">Striped rows</h4>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Address</th>
+                                        <th class="col-lg-3">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <th:block th:each="customer : ${customers}">
+                                        <tr>
+                                            <th scope="row" th:text="${customer.getId()}"></th>
+                                            <td th:text="${customer.getName()}"></td>
+                                            <td th:text="${customer.getEmail()}"></td>
+                                            <td th:text="${customer.getAddress()}"></td>
+                                            <td>
+                                                <a th:href="@{/dashboard/customers/info/__${customer.getId()}__}">
+                                                    <button class="btn btn-outline-info">View</button>
+                                                </a>
+                                                <a th:href="@{/dashboard/customers/edit/__${customer.getId()}__}">
+                                                    <button class="btn btn-outline-purple">Edit</button>
+                                                </a>
+                                                <form class="d-inline" id="delete" th:action="@{/dashboard/customers/delete/__${customer.getId()}__}" method="post">
+                                                    <button class="btn btn-outline-danger" onclick="return confirm('Chắc chắn muốn xóa KH này?')">Delete</button>
+                                                </form>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- end container-fluid -->
@@ -63,6 +116,7 @@
 <th:block th:replace="/layout/right" />
 
 <th:block th:replace="/layout/js" />
+
 </body>
 
 </html>
