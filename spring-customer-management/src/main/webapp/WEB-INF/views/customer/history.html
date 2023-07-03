@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Transfer History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Responsive bootstrap 4 admin template" name="description">
+    <meta content="Coderthemes" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <th:block th:replace="/layout/headcss"/>
+
+</head>
+
+<body>
+
+
+<!-- Begin page -->
+<div id="wrapper">
+
+
+    <!-- Topbar Start -->
+    <header>
+        <div class="col-lg-6">
+            <h1>Transfer History</h1>
+        </div>
+        <div class="col-lg-6 header-right-button">
+            <a href="/customers">
+                <button class="btn btn-outline-light">
+                    <i class="fas fa-bars"></i>
+                    List of customers
+                </button>
+            </a>
+        </div>
+    </header>
+    <!-- end Topbar -->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <!-- Start Content-->
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-between">
+                        <h4 class="header-title mb-4">Transfer History</h4>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Sender Id</th>
+                                <th>Sender Name</th>
+                                <th>Recipient Id</th>
+                                <th>Recipient Name</th>
+                                <th>Transfer Amount</th>
+                                <th>Fee (%)</th>
+                                <th>Transaction Amount</th>
+                                <th>Fee Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="transfer : ${transfers}">
+                                <tr>
+                                    <th scope="row" th:text="${transfer.getId()}"></th>
+                                    <td th:text="${transfer.sender.id}"></td>
+                                    <td th:text="${transfer.sender.name}"></td>
+                                    <td th:text="${transfer.recipient.id}"></td>
+                                    <td th:text="${transfer.sender.name}"></td>
+                                    <td th:text="${transfer.transferAmount}"></td>
+                                    <td th:text="${transfer.fee}"></td>
+                                    <td th:text="${transfer.transactionAmount}"></td>
+                                    <td th:text="${transfer.feeAmount}"></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                            <tfoot>
+                                <th colspan="8" class="text-right">Total fee amount</th>
+                                <th th:text="${totalFee}"></th>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end container-fluid -->
+
+</div>
+<!-- end content -->
+
+
+<!-- Footer Start -->
+<!-- end Footer -->
+
+
+<!-- ============================================================== -->
+<!-- End Page content -->
+<!-- ============================================================== -->
+
+<!-- END wrapper -->
+
+
+<!-- Right Sidebar -->
+
+<th:block th:replace="/layout/js"/>
+
+</body>
+
+</html>

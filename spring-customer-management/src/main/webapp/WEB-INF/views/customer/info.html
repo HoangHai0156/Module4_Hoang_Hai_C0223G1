@@ -8,7 +8,7 @@
     <meta content="Responsive bootstrap 4 admin template" name="description">
     <meta content="Coderthemes" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <th:block th:replace="/layout/headcss" />
+    <th:block th:replace="/layout/headcss"/>
 
 </head>
 
@@ -19,69 +19,83 @@
 
 
     <!-- Topbar Start -->
-    <th:block th:replace="/layout/top" />
+    <header>
+        <div class="col-lg-6">
+            <h1>Info customer</h1>
+        </div>
+        <div class="col-lg-6 header-right-button">
+            <a href="/customers">
+                <button class="btn btn-outline-light">
+                    <i class="fas fa-bars"></i>
+                    List of customers
+                </button>
+            </a>
+        </div>
+    </header>
     <!-- end Topbar -->
     <!-- ========== Left Sidebar Start ========== -->
-    <th:block th:replace="/layout/left" />
     <!-- Left Sidebar End -->
 
     <!-- ============================================================== -->
     <!-- Start Page Content here -->
     <!-- ============================================================== -->
 
-    <div class="content-page">
-        <div class="content">
-
-            <!-- Start Content-->
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-body" th:object="${customer}">
-                            <h4 class="header-title mb-4">Customer Info #<span th:text="*{id}"></span></h4>
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" readonly
-                                           placeholder="Enter name" class="form-control" id="name" th:field="*{name}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="email">Email address</label>
-                                    <input type="email" readonly
-                                           placeholder="Enter email" class="form-control" id="email" th:field="*{email}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="address">Address</label>
-                                    <input type="text" readonly
-                                           placeholder="Enter email" class="form-control" id="address" th:field="*{address}">
-                                </div>
-                        </div>
+    <!-- Start Content-->
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body" th:object="${customer}">
+                    <h4 class="header-title mb-4">Customer Info #<span th:text="*{id}"></span></h4>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" readonly
+                               placeholder="Enter name" class="form-control" id="name" th:field="*{name}">
                     </div>
-                    <!-- end card -->
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" readonly
+                               placeholder="Enter email" class="form-control" id="email" th:field="*{email}">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" readonly
+                               placeholder="Enter email" class="form-control" id="address" th:field="*{address}">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Phone</label>
+                        <input type="text" readonly
+                               placeholder="Enter email" class="form-control" id="phone" th:field="*{phone}">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Balance</label>
+                        <input type="text" readonly
+                               placeholder="Enter email" class="form-control" id="balance" th:field="*{balance}">
+                    </div>
                 </div>
             </div>
-            <!-- end container-fluid -->
-
+            <!-- end card -->
         </div>
-        <!-- end content -->
-
-
-        <!-- Footer Start -->
-        <th:block th:replace="/layout/footer"/>
-        <!-- end Footer -->
-
     </div>
-
-    <!-- ============================================================== -->
-    <!-- End Page content -->
-    <!-- ============================================================== -->
+    <!-- end container-fluid -->
 
 </div>
+<!-- end content -->
+
+
+<!-- Footer Start -->
+<!-- end Footer -->
+
+
+<!-- ============================================================== -->
+<!-- End Page content -->
+<!-- ============================================================== -->
+
 <!-- END wrapper -->
 
 
 <!-- Right Sidebar -->
-<th:block th:replace="/layout/right" />
 
-<th:block th:replace="/layout/js" />
+<th:block th:replace="/layout/js"/>
 </body>
 
 </html>

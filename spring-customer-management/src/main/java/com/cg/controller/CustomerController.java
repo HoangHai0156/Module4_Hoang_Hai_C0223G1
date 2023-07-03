@@ -1,23 +1,41 @@
 package com.cg.controller;
 
 import com.cg.model.Customer;
-import com.cg.service.CustomerService;
-import com.cg.service.ICustomerService;
+import com.cg.model.Deposit;
+import com.cg.model.Transfer;
+import com.cg.model.Withdraw;
+import com.cg.service.customer.CustomerService;
+import com.cg.service.customer.ICustomerService;
+import com.cg.service.deposit.IDepositService;
+import com.cg.service.transfer.ITransferService;
+import com.cg.service.withdraw.IWithdrawService;
 import com.cg.utils.ValidateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/dashboard/customers")
+@RequestMapping("/customers")
 public class CustomerController {
-    private final ICustomerService customerService = new CustomerService();
+
+    @Autowired
+    private ICustomerService customerService;
+
+    @Autowired
+    private IDepositService depositService;
+
+    @Autowired
+    private ITransferService transferService;
+
+    @Autowired
+    private IWithdrawService withdrawService;
 
     @GetMapping
     public ModelAndView showList(){
@@ -28,10 +46,25 @@ public class CustomerController {
 
         return modelAndView;
     }
+    @GetMapping("/search")
+    public ModelAndView showListSearch(@RequestParam String kw){
+        kw = "%"+kw+"%";
+        List<Customer> customers = customerService.findAllByNameLikeOrAddressLikeOrEmailLikeOrPhoneLike(kw,kw,kw,kw);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("customer/list");
+        modelAndView.addObject("customers",customers);
+
+        return modelAndView;
+    }
 
     @GetMapping("/info/{id}")
     public String showCustomerInfo(@PathVariable Long id, Model model){
-        Customer customer = customerService.findById(id);
+        Optional<Customer> customerOptional = customerService.findById(id);
+        if (customerOptional.isEmpty()){
+            return "errors/404";
+        }
+        Customer customer = customerOptional.get();
+
         model.addAttribute("customer",customer);
         return "customer/info";
     }
@@ -55,16 +88,10 @@ public class CustomerController {
         validateInfo(customer, errorsMap);
 
         if (errorsMap.isEmpty()){
-            Long maxId = 1L;
-            for (Customer customer1: customerService.findAll()){
-                if (customer1.getId() > maxId){
-                    maxId = customer1.getId();
-                }
-            }
-            customer.setId(maxId+1);
             customerService.save(customer);
-            redirectAttributes.addFlashAttribute("createMess","Thêm thành công!");
-            return "redirect:/dashboard/customers";
+            redirectAttributes.addFlashAttribute("mess","createMess");
+
+            return "redirect:/customers";
         }else {
             model.addAttribute("errorsMap",errorsMap);
             model.addAttribute("customer",customer);
@@ -87,8 +114,13 @@ public class CustomerController {
 
     @GetMapping("/edit/{id}")
     public String showEdit(@PathVariable Long id, Model model){
-        Customer customer = customerService.findById(id);
+        Optional<Customer> customerOptional = customerService.findById(id);
         Map<String,String> errorsMap = new HashMap<>();
+
+        if (customerOptional.isEmpty()){
+            return "redirect:/errors/404";
+        }
+        Customer customer = customerOptional.get();
 
         model.addAttribute("customer",customer);
         model.addAttribute("errorsMap",errorsMap);
@@ -96,17 +128,17 @@ public class CustomerController {
     }
 
     @PostMapping("/edit/{id}")
-    public String doEdit(@PathVariable Long id, RedirectAttributes redirectAttributes,
+    public String doEdit(RedirectAttributes redirectAttributes,
                          Model model,
                          @ModelAttribute Customer customer){
         Map<String,String> errorsMap = new HashMap<>();
         validateInfo(customer,errorsMap);
 
         if (errorsMap.isEmpty()){
-            customerService.update(id,customer);
-            redirectAttributes.addFlashAttribute("editMess","Sửa thành công");
+            customerService.save(customer);
+            redirectAttributes.addFlashAttribute("mess","editMess");
 
-            return "redirect:/dashboard/customers";
+            return "redirect:/customers";
         }else {
             model.addAttribute("customer",customer);
             model.addAttribute("errorsMap",errorsMap);
@@ -115,9 +147,202 @@ public class CustomerController {
     }
     @PostMapping("/delete/{id}")
     public String doDelete(@PathVariable Long id, RedirectAttributes redirectAttributes){
-        customerService.remove(id);
-        redirectAttributes.addFlashAttribute("deleteMess","Xóa thành công");
 
-        return "redirect:/dashboard/customers";
+        Optional<Customer> customerOptional = customerService.findById(id);
+        if (customerOptional.isEmpty()){
+            return "redirect:/errors/404";
+        }
+
+        Customer customer = customerOptional.get();
+        customer.setDeleted(true);
+        customer.setId(id);
+
+        customerService.save(customer);
+        redirectAttributes.addFlashAttribute("mess","deleteMess");
+
+        return "redirect:/customers";
     }
+
+    @GetMapping("/deposit/{id}")
+    public ModelAndView showDeposit(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        Optional<Customer> customerOptional = customerService.findById(id);
+
+        if (customerOptional.isEmpty()){
+            modelAndView.setViewName("errors/404");
+            return modelAndView;
+        }
+
+        Customer customer = customerOptional.get();
+        Deposit deposit = new Deposit();
+        deposit.setCustomer(customer);
+
+        modelAndView.setViewName("customer/deposit");
+        modelAndView.addObject("deposit",deposit);
+
+        return modelAndView;
+    }
+    @PostMapping("/deposit/{id}")
+    public ModelAndView doDeposit(@ModelAttribute Deposit deposit,
+                                  @PathVariable Long id){
+        Customer customer = deposit.getCustomer();
+        BigDecimal transAmount = deposit.getTransactionAmount();
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (transAmount.compareTo(BigDecimal.ZERO) > 0){
+            BigDecimal balance = customer.getBalance();
+            balance = balance.add(transAmount);
+            customer.setBalance(balance);
+
+            customer.setId(id);
+            deposit.setId(null);
+
+            customerService.save(customer);
+            depositService.save(deposit);
+            modelAndView.addObject("mess","success");
+        }else {
+            modelAndView.addObject("mess","fail");
+        }
+
+        modelAndView.addObject("deposit",deposit);
+        modelAndView.setViewName("customer/deposit");
+
+        return modelAndView;
+    }
+    @GetMapping("/withdraw/{id}")
+    public ModelAndView showWithdraw(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        Optional<Customer> customerOptional = customerService.findById(id);
+
+        if (customerOptional.isEmpty()){
+            modelAndView.setViewName("errors/404");
+            return modelAndView;
+        }
+
+        Customer customer = customerOptional.get();
+        Withdraw withdraw = new Withdraw();
+        withdraw.setCustomer(customer);
+
+        modelAndView.setViewName("customer/withdraw");
+        modelAndView.addObject("withdraw",withdraw);
+
+        return modelAndView;
+    }
+    @PostMapping("/withdraw/{id}")
+    public ModelAndView doWithdraw(@ModelAttribute Withdraw withdraw,
+                                  @PathVariable Long id){
+        Customer customer = withdraw.getCustomer();
+        BigDecimal transAmount = withdraw.getTransactionAmount();
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (transAmount.compareTo(BigDecimal.ZERO) > 0){
+            BigDecimal balance = customer.getBalance();
+            balance = balance.subtract(transAmount);
+            customer.setBalance(balance);
+
+            withdraw.setId(null);
+            customer.setId(id);
+
+            customerService.save(customer);
+            withdrawService.save(withdraw);
+
+            modelAndView.addObject("mess","success");
+        }else {
+            modelAndView.addObject("mess","fail");
+        }
+
+        modelAndView.addObject("withdraw",withdraw);
+        modelAndView.setViewName("customer/withdraw");
+
+        return modelAndView;
+    }
+
+    @GetMapping("/transfer/{id}")
+    public ModelAndView showTransfer(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        Optional<Customer> customerOptional = customerService.findById(id);
+
+        if (customerOptional.isEmpty()){
+            modelAndView.setViewName("errors/404");
+            return modelAndView;
+        }
+
+        Transfer transfer = new Transfer();
+        Customer customer = customerOptional.get();
+        transfer.setSender(customer);
+
+        List<Customer> customers = customerService.findAll();
+        List<Customer> customerList = customers.stream().filter(customer1 -> !Objects.equals(customer1.getId(), id)).collect(Collectors.toList());
+
+        modelAndView.setViewName("customer/transfer");
+        modelAndView.addObject("transfer",transfer);
+        modelAndView.addObject("customerList",customerList);
+        return modelAndView;
+    }
+
+    @PostMapping("/transfer/{id}")
+    public ModelAndView doTransfer(@PathVariable Long id,
+                                   @ModelAttribute Transfer transfer){
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        Customer sender = transfer.getSender();
+        BigDecimal transactionAmount = transfer.getTransactionAmount();
+        BigDecimal transAmount = transfer.getTransferAmount();
+
+        if (transactionAmount.compareTo(sender.getBalance()) > 0 || transactionAmount.compareTo(BigDecimal.ZERO) < 0){
+            modelAndView.addObject("mess","fail");
+        }else {
+            Long recipientId = transfer.getRecipient().getId();
+            Optional<Customer> recipientOptional = customerService.findById(recipientId);
+            if (recipientOptional.isEmpty()){
+                modelAndView.setViewName("errors/404");
+                return modelAndView;
+            }
+
+            Customer recipient = recipientOptional.get();
+            recipient.setBalance(transAmount.add(recipient.getBalance()));
+            sender.setBalance(sender.getBalance().subtract(transactionAmount));
+
+            transfer.setId(null);
+            transfer.setRecipient(recipient);
+            transfer.setFeeAmount(transactionAmount.subtract(transAmount));
+            sender.setId(id);
+            recipient.setId(recipientId);
+
+            customerService.save(sender);
+            customerService.save(recipient);
+            transferService.save(transfer);
+
+            modelAndView.addObject("mess","success");
+        }
+
+        List<Customer> customers = customerService.findAll();
+        List<Customer> customerList = customers.stream().filter(customer1 -> !Objects.equals(customer1.getId(), id)).collect(Collectors.toList());
+
+        modelAndView.setViewName("customer/transfer");
+        modelAndView.addObject("customer",sender);
+        modelAndView.addObject("customerList",customerList);
+        return modelAndView;
+    }
+
+    @GetMapping("/history")
+    public ModelAndView showHistory(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("customer/history");
+        List<Transfer> transfers = transferService.findAll();
+        modelAndView.addObject("transfers",transfers);
+
+        BigDecimal totalFee = BigDecimal.ZERO;
+        for (Transfer transfer: transfers){
+            totalFee = totalFee.add(transfer.getFeeAmount());
+        }
+
+        modelAndView.addObject("totalFee",totalFee);
+
+        return modelAndView;
+    }
+
 }

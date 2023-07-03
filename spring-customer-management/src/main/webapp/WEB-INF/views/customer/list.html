@@ -8,8 +8,7 @@
     <meta content="Responsive bootstrap 4 admin template" name="description">
     <meta content="Coderthemes" name="author">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <th:block th:replace="/layout/headcss" />
-    <th:block th:replace="layout/head :: head-1" />
+    <th:block th:replace="/layout/headcss"/>
 
 </head>
 
@@ -21,101 +20,151 @@
 
 
     <!-- Topbar Start -->
-    <th:block th:replace="/layout/top" />
+    <header>
+        <div class="col-lg-6">
+            <h1>Customer List</h1>
+        </div>
+        <div class="col-lg-6 header-right-button">
+
+            <a href="/customers/history">
+                <button class="btn btn-outline-light">
+                    <i class="fas fa-history"></i>
+                    Transfer History
+                </button>
+            </a>
+            <a href="/customers/create">
+                <button class="btn btn-outline-light">
+                    <i class="fas fa-user-plus"></i>
+                    Create Customer
+                </button>
+            </a>
+        </div>
+    </header>
     <!-- end Topbar -->
     <!-- ========== Left Sidebar Start ========== -->
-    <th:block th:replace="/layout/left" />
     <!-- Left Sidebar End -->
 
     <!-- ============================================================== -->
     <!-- Start Page Content here -->
     <!-- ============================================================== -->
 
-    <div class="content-page">
-        <div class="content">
-
-            <!-- Start Content-->
-            <div th:if="${deleteMess}" class="row d-flex justify-content-center">
-                    <script>
-                        window.onload = function (){
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Xóa thành công',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        }
-                    </script>
-            </div>
-            <div class="row justify-content-center mt-5">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="header-title mb-4">Striped rows</h4>
-
-                            <div class="table-responsive">
-                                <table class="table table-striped mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Address</th>
-                                        <th class="col-lg-3">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <th:block th:each="customer : ${customers}">
-                                        <tr>
-                                            <th scope="row" th:text="${customer.getId()}"></th>
-                                            <td th:text="${customer.getName()}"></td>
-                                            <td th:text="${customer.getEmail()}"></td>
-                                            <td th:text="${customer.getAddress()}"></td>
-                                            <td>
-                                                <a th:href="@{/dashboard/customers/info/__${customer.getId()}__}">
-                                                    <button class="btn btn-outline-info">View</button>
-                                                </a>
-                                                <a th:href="@{/dashboard/customers/edit/__${customer.getId()}__}">
-                                                    <button class="btn btn-outline-purple">Edit</button>
-                                                </a>
-                                                <form class="d-inline" id="delete" th:action="@{/dashboard/customers/delete/__${customer.getId()}__}" method="post">
-                                                    <button class="btn btn-outline-danger" onclick="return confirm('Chắc chắn muốn xóa KH này?')">Delete</button>
-                                                </form>
-                                        </tr>
-                                    </th:block>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end container-fluid -->
-
-        </div>
-        <!-- end content -->
-
-
-        <!-- Footer Start -->
-        <th:block th:replace="/layout/footer" />
-        <!-- end Footer -->
-
+    <!-- Start Content-->
+    <div th:switch="${mess}" hidden="hidden">
+        <input th:case="deleteMess" th:id="mess" value="Xóa thành công"></input>
+        <input th:case="createMess" th:id="mess" value="Thêm thành công"></input>
+        <input th:case="editMess" th:id="mess" value="Sửa thành công"></input>
+    </div>
+    <div th:if="${mess != null}" class="row d-flex justify-content-center">
+        <script th:inline="javascript">
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: document.getElementById('mess').value,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
     </div>
 
-    <!-- ============================================================== -->
-    <!-- End Page content -->
-    <!-- ============================================================== -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-between">
+                        <h4 class="header-title mb-4">Customer list</h4>
+                        <li class="d-none d-lg-block">
+                            <form class="app-search" action="/customers/search" method="get">
+                                <div class="app-search-box">
+                                    <div class="input-group">
+                                        <input name="kw" type="text" class="form-control" placeholder="Search...">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="submit">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Phone</th>
+                                <th class="col-lg-2">Balance</th>
+                                <th class="col-lg-3">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <th:block th:each="customer : ${customers}">
+                                <tr th:if="${customer.deleted == false}">
+                                    <th scope="row" th:text="${customer.getId()}"></th>
+                                    <td th:text="${customer.getName()}"></td>
+                                    <td th:text="${customer.getEmail()}"></td>
+                                    <td th:text="${customer.getAddress()}"></td>
+                                    <td th:text="${customer.getPhone()}"></td>
+                                    <td th:text="${customer.getBalance()}"></td>
+                                    <td>
+                                        <a th:href="@{/customers/info/__${customer.getId()}__}">
+                                            <button class="btn btn-outline-info fas fa-question"></button>
+                                        </a>
+                                        <a th:href="@{/customers/edit/__${customer.getId()}__}">
+                                            <button class="btn btn-outline-purple fas fa-pencil-alt"></button>
+                                        </a>
+                                        <a th:href="@{/customers/deposit/__${customer.getId()}__}">
+                                            <button class="btn btn-outline-success fas fa-plus"></button>
+                                        </a>
+                                        <a th:href="@{/customers/withdraw/__${customer.getId()}__}">
+                                            <button class="btn btn-outline-secondary fas fa-minus"></button>
+                                        </a>
+                                        <a th:href="@{/customers/transfer/__${customer.getId()}__}">
+                                            <button class="btn btn-outline-primary ion ion-ios-swap"></button>
+                                        </a>
+
+                                        <form class="d-inline" id="delete"
+                                              th:action="@{/customers/delete/__${customer.getId()}__}"
+                                              method="post">
+                                            <button class="btn btn-outline-danger fas fa-ban"
+                                                    onclick="return confirm('Chắc chắn muốn xóa KH này?')">
+                                            </button>
+                                        </form>
+                                    <td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end container-fluid -->
 
 </div>
+<!-- end content -->
+
+
+<!-- Footer Start -->
+<!-- end Footer -->
+
+
+<!-- ============================================================== -->
+<!-- End Page content -->
+<!-- ============================================================== -->
+
 <!-- END wrapper -->
 
 
 <!-- Right Sidebar -->
-<th:block th:replace="/layout/right" />
 
-<th:block th:replace="/layout/js" />
+<th:block th:replace="/layout/js"/>
 
 </body>
 
