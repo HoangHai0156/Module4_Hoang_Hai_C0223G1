@@ -64,70 +64,72 @@
   </div>
 
   <div class="row justify-content-center mt-5">
-    <div class="col-lg-6">
-      <div class="card">
         <form class="card-body" th:object="${transfer}" method="post">
           <h4 class="header-title mb-4">Customer account #<span th:text="*{sender.id}"></span></h4>
-          <div class="form-group">
-            <label for="name">Sender Name</label>
-            <input type="text" readonly
-                   placeholder="Enter name" class="form-control" id="name" th:field="*{sender.name}">
+          <div class="row">
+            <div class="form-group col-lg-4">
+              <label for="name">Sender Name</label>
+              <input type="text" readonly
+                     placeholder="Enter name" class="form-control" id="name" th:field="*{sender.name}">
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="email">Email address</label>
+              <input type="email" readonly
+                     placeholder="Enter email" class="form-control" id="email" th:field="*{sender.email}">
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="address">Address</label>
+              <input type="text" readonly
+                     placeholder="Enter email" class="form-control" id="address" th:field="*{sender.address}">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" readonly
-                   placeholder="Enter email" class="form-control" id="email" th:field="*{sender.email}">
-          </div>
-          <div class="form-group">
-            <label for="address">Address</label>
-            <input type="text" readonly
-                   placeholder="Enter email" class="form-control" id="address" th:field="*{sender.address}">
-          </div>
-          <div class="form-group">
-            <label for="address">Phone</label>
-            <input type="text" readonly
-                   placeholder="Enter email" class="form-control" id="phone" th:field="*{sender.phone}">
-          </div>
-          <div class="form-group">
-            <label for="address">Sender Current Balance</label>
-            <input type="text" readonly
-                   placeholder="Enter balance" class="form-control" id="balance" th:field="*{sender.balance}">
-          </div>
-          <div class="form-group">
-            <label for="recipient">Recipient</label>
-            <select class="form-control" name="recipient.id" id="recipient">
-              <th:block th:each="customer : ${customerList}">
-                <option th:if="${customer.deleted == false}" th:text="${customer.name}" th:value="${customer.id}"></option>
-              </th:block>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="transAmount">Transfer amount</label>
-            <input type="number" oninput="calculateTotal(this.value)"
-                   placeholder="Enter Transaction Amount" class="form-control" id="transAmount" th:field="*{transferAmount}">
-          </div>
-          <div class="form-group">
-            <label for="fees">Fees (%)</label>
-            <input readonly type="number" class="form-control" id="fees" th:field="*{fee}">
+          <div class="row">
+            <div class="form-group col-lg-4">
+              <label for="address">Phone</label>
+              <input type="text" readonly
+                     placeholder="Enter email" class="form-control" id="phone" th:field="*{sender.phone}">
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="address">Sender Current Balance</label>
+              <input type="text" readonly
+                     placeholder="Enter balance" class="form-control" id="balance" th:field="*{sender.balance}">
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="recipient">Recipient</label>
+              <select class="form-control" name="recipient.id" id="recipient">
+                <th:block th:each="customer : ${customerList}">
+                  <option th:if="${customer.deleted == false}" th:text="${customer.name}" th:value="${customer.id}"></option>
+                </th:block>
+              </select>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="total">Total amount of transaction</label>
-            <input type="number" readonly
-                   class="form-control" id="total" th:field="*{transactionAmount}">
+          <div class="row">
+            <div class="form-group col-lg-4">
+              <label for="transAmount">Transfer amount</label>
+              <input type="number" oninput="calculateTotal(this.value)"
+                     placeholder="Enter Transaction Amount" class="form-control" id="transAmount" th:field="*{transferAmount}">
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="fees">Fees (%)</label>
+              <input readonly type="number" class="form-control" id="fees" th:field="*{fee}">
+            </div>
+
+            <div class="form-group col-lg-4">
+              <label for="total">Total amount of transaction</label>
+              <input type="number" readonly
+                     class="form-control" id="total" th:field="*{transactionAmount}">
+            </div>
           </div>
 
-          <div class="form-group text-right mb-0">
+          <div class="form-group text-left mb-0">
             <button class="btn btn-success waves-effect waves-light mr-1" type="submit">
               <i class="ion ion-ios-swap"></i>
               Transfer
             </button>
           </div>
         </form>
-      </div>
       <!-- end card -->
-    </div>
   </div>
   <!-- end container-fluid -->
 
@@ -149,12 +151,7 @@
 <!-- Right Sidebar -->
 
 <th:block th:replace="/layout/js"/>
-<script>
-  function calculateTotal(amount){
-    let amountNum = parseFloat(amount);
-    document.getElementById('total').value = amountNum + (amountNum * 0.1);
-  }
-</script>
+
 </body>
 
 </html>

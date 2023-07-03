@@ -4,6 +4,12 @@
 
     <!-- App js -->
     <script src="\assets\js\app.min.js"></script>
+    <script>
+        function calculateTotal(amount){
+            let amountNum = parseFloat(amount);
+            document.getElementById('total').value = amountNum + (amountNum * 0.1);
+        }
+    </script>
 
 
 </th:block>

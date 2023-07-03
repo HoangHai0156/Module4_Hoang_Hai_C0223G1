@@ -64,6 +64,9 @@ public class CustomerController {
             return "errors/404";
         }
         Customer customer = customerOptional.get();
+        if (customer.isDeleted()){
+            return "redirect:/errors/404";
+        }
 
         model.addAttribute("customer",customer);
         return "customer/info";
@@ -121,6 +124,9 @@ public class CustomerController {
             return "redirect:/errors/404";
         }
         Customer customer = customerOptional.get();
+        if (customer.isDeleted()){
+            return "redirect:/errors/404";
+        }
 
         model.addAttribute("customer",customer);
         model.addAttribute("errorsMap",errorsMap);
@@ -130,7 +136,12 @@ public class CustomerController {
     @PostMapping("/edit/{id}")
     public String doEdit(RedirectAttributes redirectAttributes,
                          Model model,
+                         @PathVariable Long id,
                          @ModelAttribute Customer customer){
+        Optional<Customer> optionalCustomer = customerService.findById(id);
+        Customer customer1 = optionalCustomer.get();
+        customer.setBalance(customer1.getBalance());
+
         Map<String,String> errorsMap = new HashMap<>();
         validateInfo(customer,errorsMap);
 
@@ -154,6 +165,10 @@ public class CustomerController {
         }
 
         Customer customer = customerOptional.get();
+        if (customer.isDeleted()){
+            return "redirect:/errors/404";
+        }
+
         customer.setDeleted(true);
         customer.setId(id);
 
@@ -174,6 +189,11 @@ public class CustomerController {
         }
 
         Customer customer = customerOptional.get();
+        if (customer.isDeleted()){
+            modelAndView.setViewName("errors/404");
+            return modelAndView;
+        }
+
         Deposit deposit = new Deposit();
         deposit.setCustomer(customer);
 
@@ -221,6 +241,11 @@ public class CustomerController {
         }
 
         Customer customer = customerOptional.get();
+        if (customer.isDeleted()){
+            modelAndView.setViewName("errors/404");
+            return modelAndView;
+        }
+
         Withdraw withdraw = new Withdraw();
         withdraw.setCustomer(customer);
 
@@ -237,7 +262,7 @@ public class CustomerController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        if (transAmount.compareTo(BigDecimal.ZERO) > 0){
+        if (transAmount.compareTo(BigDecimal.ZERO) > 0 && transAmount.compareTo(customer.getBalance()) < 0){
             BigDecimal balance = customer.getBalance();
             balance = balance.subtract(transAmount);
             customer.setBalance(balance);
@@ -269,8 +294,13 @@ public class CustomerController {
             return modelAndView;
         }
 
-        Transfer transfer = new Transfer();
         Customer customer = customerOptional.get();
+        if (customer.isDeleted()){
+            modelAndView.setViewName("errors/404");
+            return modelAndView;
+        }
+
+        Transfer transfer = new Transfer();
         transfer.setSender(customer);
 
         List<Customer> customers = customerService.findAll();
@@ -303,6 +333,11 @@ public class CustomerController {
             }
 
             Customer recipient = recipientOptional.get();
+            if (recipient.isDeleted()){
+                modelAndView.setViewName("errors/404");
+                return modelAndView;
+            }
+
             recipient.setBalance(transAmount.add(recipient.getBalance()));
             sender.setBalance(sender.getBalance().subtract(transactionAmount));
 
