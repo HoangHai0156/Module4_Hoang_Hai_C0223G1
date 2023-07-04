@@ -55,31 +55,32 @@
                             <label for="name">Name<span class="text-danger">*</span></label>
                             <input type="text" required=""
                                    placeholder="Enter name" class="form-control" id="name" th:field="*{name}">
-                            <p th:if="${errorsMap.containsKey('nameInvalid')}" class="alert-danger"
-                               th:text="${errorsMap.get('nameInvalid')}"></p>
+<!--                            <p th:if="${errorsMap.containsKey('nameInvalid')}" class="alert-danger"-->
+<!--                               th:text="${errorsMap.get('nameInvalid')}"></p>-->
                         </div>
                         <div class="form-group">
                             <label for="email">Email address<span
                                     class="text-danger">*</span></label>
                             <input type="email" required=""
                                    placeholder="Enter email" class="form-control" id="email" th:field="*{email}">
-                            <p th:if="${errorsMap.containsKey('emailInvalid')}" class="alert-danger"
-                               th:text="${errorsMap.get('emailInvalid')}"></p>
+<!--                            <p th:if="${errorsMap.containsKey('emailInvalid')}" class="alert-danger"-->
+<!--                               th:text="${errorsMap.get('emailInvalid')}"></p>-->
                         </div>
                         <div class="form-group">
                             <label for="address">Address<span
                                     class="text-danger">*</span></label>
                             <input type="text" required=""
                                    placeholder="Enter email" class="form-control" id="address" th:field="*{address}">
-                            <p th:if="${errorsMap.containsKey('addressInvalid')}" class="alert-danger"
-                               th:text="${errorsMap.get('addressInvalid')}"></p>
+<!--                            <p th:if="${errorsMap.containsKey('addressInvalid')}" class="alert-danger"-->
+<!--                               th:text="${errorsMap.get('addressInvalid')}"></p>-->
                         </div>
                         <div class="form-group">
                             <label for="address">Phone<span
                                     class="text-danger">*</span></label>
                             <input type="tel" required=""
                                    placeholder="Enter Phone" class="form-control" id="phone" th:field="*{phone}">
-
+<!--                            <p th:if="${errorsMap.containsKey('phoneInvalid')}" class="alert-danger"-->
+<!--                               th:text="${errorsMap.get('phoneInvalid')}"></p>-->
                         </div>
 
                         <div class="form-group text-right mb-0">
@@ -104,6 +105,17 @@
 
 
 <!-- Footer Start -->
+<th:block th:if="${errorsMap.isEmpty()} == false">
+    <footer class="alert alert-danger fixed-bottom mb-0">
+        <div class="container">
+            <div class="error-area">
+                <ul>
+                    <li th:each="key : ${errorsMap.keySet()}" th:text="${errorsMap.get(key)}"></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</th:block>
 <!-- end Footer -->
 
 

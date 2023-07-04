@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Customer Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Responsive bootstrap 4 admin template" name="description">
+    <meta content="Coderthemes" name="author">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <th:block th:replace="/layout/headcss" />
+
+</head>
+
+<body>
+
+<!-- Begin page -->
+<div id="wrapper">
+
+
+    <!-- Topbar Start -->
+    <!-- end Topbar -->
+    <!-- ========== Left Sidebar Start ========== -->
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <!-- Start Content-->
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <!-- end page title -->
+
+        <!-- end row -->
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card mt-4">
+                    <div class="card-header text-center p-4 bg-primary">
+                        <h4 class="text-white mb-0 mt-0">Velonic</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <h1 class="text-error display-4 font-weight-bold">500</h1>
+                            <h3 class="text-uppercase font-weight-bold text-danger mt-4">Internal Server Error</h3>
+                            <p class="text-muted mt-4"> Why not try refreshing your page? or you can contact <a href="/" class="text-primary"><b>Support</b></a></p>
+
+                            <a class="btn btn-md btn-block btn-primary waves-effect waves-light mt-4" href="/customers"> Return Home</a>
+                        </div>
+
+                    </div>
+                    <!-- end card-body -->
+                </div>
+                <!-- end card -->
+
+                <!-- end row -->
+
+            </div>
+            <!-- end col -->
+        </div>
+
+    </div>
+    <!-- end container-fluid -->
+
+</div>
+<!-- end content -->
+
+
+<!-- Footer Start -->
+<!-- end Footer -->
+
+
+<!-- ============================================================== -->
+<!-- End Page content -->
+<!-- ============================================================== -->
+
+<!-- END wrapper -->
+
+
+<!-- Right Sidebar -->
+
+<th:block th:replace="/layout/js" />
+</body>
+
+</html>

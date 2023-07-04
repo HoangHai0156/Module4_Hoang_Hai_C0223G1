@@ -1,13 +1,17 @@
 package com.cg.model;
 
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "customers")
-public class Customer extends BaseEntity{
+public class Customer extends BaseEntity implements Validator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false)
     private Long id;
     @Column(nullable = false)
     private String name;
@@ -16,7 +20,7 @@ public class Customer extends BaseEntity{
     private String address;
     @Column(unique = true)
     private String phone;
-    @Column(precision = 10, scale = 0, nullable = false)
+    @Column(precision = 10, scale = 0, nullable = false, updatable = false)
     private BigDecimal balance = BigDecimal.ZERO;
 
     public Customer() {
@@ -84,5 +88,15 @@ public class Customer extends BaseEntity{
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public boolean supports(Class<?> aClass) {
+        return Customer.class.isAssignableFrom(aClass);
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        Customer customer = (Customer) target;
     }
 }

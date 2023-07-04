@@ -55,6 +55,7 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Date Create</th>
                                 <th>Sender Id</th>
                                 <th>Sender Name</th>
                                 <th>Recipient Id</th>
@@ -69,6 +70,7 @@
                             <th:block th:each="transfer : ${transfers}">
                                 <tr>
                                     <th scope="row" th:text="${transfer.getId()}"></th>
+                                    <th th:text="${transfer.createdAt}"></th>
                                     <td th:text="${transfer.sender.id}"></td>
                                     <td th:text="${transfer.sender.name}"></td>
                                     <td th:text="${transfer.recipient.id}"></td>
@@ -81,7 +83,7 @@
                             </th:block>
                             </tbody>
                             <tfoot>
-                                <th colspan="8" class="text-right">Total fee amount</th>
+                                <th colspan="9" class="text-right">Total fee amount</th>
                                 <th th:text="${totalFee}"></th>
                             </tfoot>
                         </table>
