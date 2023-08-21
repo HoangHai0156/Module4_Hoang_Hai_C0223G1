@@ -53,12 +53,19 @@
     </script>
   </div>
 
-  <div th:if="${mess == 'fail'}" class="row d-flex justify-content-center">
+  <div th:switch="${mess}" hidden="hidden">
+    <input th:case="failBlank" th:id="mess" value="Transaction amount không được để trống!"></input>
+    <input th:case="failNegative" th:id="mess" value="Transaction amount phải lớn hơn 0!"></input>
+    <input th:case="failOverload" th:id="mess" value="Số dư không đủ!"></input>
+    <input th:case="failText" th:id="mess" value="Transaction amount không được phép là chữ!"></input>
+  </div>
+
+  <div th:if="${mess != null}" class="row d-flex justify-content-center">
     <script th:inline="javascript">
       Swal.fire({
         icon: 'error',
-        title: 'Oops...',
-        text: 'Fail to withdraw!'
+        title: 'Fail to withdraw!',
+        text: document.getElementById('mess').value
       })
     </script>
   </div>
@@ -96,7 +103,7 @@
             </div>
             <div class="form-group col-lg-4">
               <label for="t-amount">Transaction amount</label>
-              <input type="number" required
+              <input type="text"
                      placeholder="Enter Transaction Amount" class="form-control" id="t-amount" th:field="*{transactionAmount}">
             </div>
           </div>

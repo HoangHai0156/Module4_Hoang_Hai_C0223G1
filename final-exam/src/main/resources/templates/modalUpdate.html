@@ -1,0 +1,50 @@
+<th:block th:fragment="modalUpdate">
+  <div class="modal" tabindex="-1" id="modalUpdate">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Sửa video</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form id="frmUpdate" method="post">
+          <div class="modal-body">
+            <div class="row">
+              <label for="nameUp">Tên</label>
+              <input type="text" id="nameUp" name="nameUp" placeholder="Nhập tên" class="form-control">
+            </div>
+
+            <div class="row">
+              <label for="descriptionUp">Mô tả</label>
+              <input type="text" id="descriptionUp" name="descriptionUp" placeholder="Nhập mô tả" class="form-control">
+            </div>
+
+            <div class="row">
+              <label>Danh sách playlist</label>
+              <div class="col-lg-12 mt-2 mb-2">
+                <input type="checkbox" name="tagsUp" class="tagsUp" id="haiHuocUp" value="1">
+                <label class="mr-2" for="haiHuocUp">Hài hước</label>
+                <input type="checkbox" name="tagsUp" class="tagsUp" id="kinhDiUp" value="2" >
+                <label class="mr-2" for="kinhDiUp">Kinh dị</label>
+                <input type="checkbox" name="tagsUp" class="tagsUp" id="trinhThamUp" value="3">
+                <label class="mr-2" for="trinhThamUp">Trinnh thám</label>
+                <input type="checkbox" name="tagsUp" class="tagsUp" id="hanhDongUp" value="4">
+                <label class="mr-2" for="hanhDongUp">Hành động</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <label for="urlUp">Link video</label>
+              <input type="text" id="urlUp" name="urlUp" placeholder="Nhập url" class="form-control">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="closeBtnUp" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            <button type="button" id="createBtnUp" class="btn btn-primary">Sửa</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</th:block>

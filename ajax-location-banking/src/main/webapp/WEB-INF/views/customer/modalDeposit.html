@@ -1,0 +1,103 @@
+<th:block th:fragment="modalDeposit">
+    <div id="deposit"
+         data-backdrop="static" data-keyboard="false"
+         class="modal fade"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true"
+    >
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Deposit</h5>
+                    <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="card-body" id="deposit-form" method="post">
+                    <h4 class="header-title mb-4">Customer account</h4>
+                    <div class="error-area hide"> </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label for="name-deposit">Name</label>
+                            <input
+                                    type="text"
+                                    readonly
+                                    placeholder="Enter name"
+                                    class="form-control"
+                                    id="name-deposit"
+                            />
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="email-deposit">Email address</label>
+                            <input
+                                    type="email"
+                                    readonly
+                                    placeholder="Enter email"
+                                    class="form-control"
+                                    id="email-deposit"
+                            />
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="address-deposit">Address</label>
+                            <input
+                                    type="text"
+                                    readonly
+                                    placeholder="Enter email"
+                                    class="form-control"
+                                    id="address-deposit"
+                            />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label for="address-deposit">Phone</label>
+                            <input
+                                    type="text"
+                                    readonly
+                                    placeholder="Enter email"
+                                    class="form-control"
+                                    id="phone-deposit"
+                            />
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="balance-deposit">Current Balance</label>
+                            <input
+                                    type="text"
+                                    readonly
+                                    placeholder="Enter balance"
+                                    class="form-control"
+                                    id="balance-deposit"
+                            />
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label for="trans-amount-deposit">Transaction amount</label>
+                            <input
+                                    type="text"
+                                    placeholder="Enter Transaction Amount"
+                                    class="form-control"
+                                    id="trans-amount-deposit"
+                                    name="trans-amount-deposit"
+                            />
+                        </div>
+                    </div>
+                    <div class="form-group text-left mb-0">
+                        <button
+                                id="btn-deposit"
+                                class="btn btn-success waves-effect waves-light mr-1"
+                                type="submit"
+                        >
+                            <i class="fas fa-plus"></i>
+                            Deposit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>

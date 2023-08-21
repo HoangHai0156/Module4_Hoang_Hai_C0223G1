@@ -1,0 +1,45 @@
+header{
+    background-color: #299be4;
+    height: 100px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.header-right-button{
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+.modal-dialog{
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.error{
+    color: red;
+}
+.show {
+    display: block !important;
+}
+
+.hide {
+    display: none;
+}
+
+.error-area {
+    background-color: #ffd8d8;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.error-area.show label {
+    display: list-item;
+    color: #be0f0f;
+    margin-left: 20px;
+}
+
+input.error {
+    border-color: red;
+}

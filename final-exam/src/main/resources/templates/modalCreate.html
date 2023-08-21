@@ -1,0 +1,50 @@
+<th:block th:fragment="modalCreate">
+    <div class="modal" tabindex="-1" id="modalCreate">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm video</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="frmCreate" method="post">
+                    <div class="modal-body">
+                        <div class="row">
+                            <label for="name">Tên</label>
+                            <input type="text" id="name" name="name" placeholder="Nhập tên" class="form-control">
+                        </div>
+
+                        <div class="row">
+                            <label for="description">Mô tả</label>
+                            <input type="text" id="description" name="description" placeholder="Nhập mô tả" class="form-control">
+                        </div>
+
+                        <div class="row">
+                            <label>Danh sách playlist</label>
+                            <div class="col-lg-12 mt-2 mb-2">
+                                <input type="checkbox" name="tags" class="tags" id="haiHuoc" value="1">
+                                <label class="mr-2" for="haiHuoc">Hài hước</label>
+                                <input type="checkbox" name="tags" class="tags" id="kinhDi" value="2" >
+                                <label class="mr-2" for="kinhDi">Kinh dị</label>
+                                <input type="checkbox" name="tags" class="tags" id="trinhTham" value="3">
+                                <label class="mr-2" for="trinhTham">Trinnh thám</label>
+                                <input type="checkbox" name="tags" class="tags" id="hanhDong" value="4">
+                                <label class="mr-2" for="hanhDong">Hành động</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label for="url">Link video</label>
+                            <input type="text" id="url" name="url" placeholder="Nhập url" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="closeBtn" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                        <button type="button" id="createBtn" class="btn btn-primary">Tạo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>

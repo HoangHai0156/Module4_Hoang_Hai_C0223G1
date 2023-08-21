@@ -53,12 +53,20 @@
     </script>
   </div>
 
-  <div th:if="${mess == 'fail'}" class="row d-flex justify-content-center">
+  <div th:switch="${mess}" hidden="hidden">
+    <input th:case="failBlank" th:id="mess" value="Transfer amount không được để trống!"></input>
+    <input th:case="failNegative" th:id="mess" value="Transfer amount phải lớn hơn 0!"></input>
+    <input th:case="failOverload" th:id="mess" value="Số dư không đủ!"></input>
+    <input th:case="failDuplicate" th:id="mess" value="Người nhận không được trùng với nguời gửi!"></input>
+    <input th:case="failText" th:id="mess" value="Sai định dạng!"></input>
+  </div>
+
+  <div th:if="${mess != null}" class="row d-flex justify-content-center">
     <script th:inline="javascript">
       Swal.fire({
         icon: 'error',
-        title: 'Oops...',
-        text: 'Fail to transfer!'
+        title: 'Fail to transfer!',
+        text: document.getElementById('mess').value
       })
     </script>
   </div>
@@ -107,7 +115,7 @@
           <div class="row">
             <div class="form-group col-lg-4">
               <label for="transAmount">Transfer amount</label>
-              <input type="number" oninput="calculateTotal(this.value)" required
+              <input type="text" oninput="calculateTotal(this.value)"
                      placeholder="Enter Transaction Amount" class="form-control" id="transAmount" th:field="*{transferAmount}">
             </div>
             <div class="form-group col-lg-4">

@@ -1,0 +1,130 @@
+<th:block th:fragment="modalCreate">
+    <div id="createCustomer"
+         data-backdrop="static" data-keyboard="false"
+         class="modal fade"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true"
+    >
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Customer</h5>
+                    <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                    >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="create-customer-form" method="post">
+                    <div class="modal-body">
+                        <div class="error-area hide"> </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="name"
+                                >Name<span class="text-danger">*</span></label
+                                >
+                                <input
+                                        type="text"
+                                        placeholder="Enter name"
+                                        class="form-control"
+                                        id="name"
+                                        name="name"
+                                        value=""
+                                />
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="email"
+                                >Email address<span class="text-danger">*</span></label
+                                >
+                                <input
+                                        type="email"
+                                        placeholder="Enter email"
+                                        class="form-control"
+                                        id="email"
+                                        name="email"
+                                        value=""
+                                />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-4">
+                                <label for="province-create-id">Province</label>
+                                <select
+                                        class="form-control"
+                                        name="province-create-id"
+                                        id="province-create-id"
+                                >
+                                    <option></option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="district-create-id">District</label>
+                                <select
+                                        class="form-control"
+                                        name="district-create-id"
+                                        id="district-create-id"
+                                >
+                                    <option></option>
+                                </select>
+                            </div>
+                            <div class="form-group col-lg-4">
+                                <label for="ward-create-id">Ward</label>
+                                <select
+                                        class="form-control"
+                                        name="ward-create-id"
+                                        id="ward-create-id"
+                                >
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="address"
+                                >Address<span class="text-danger">*</span></label
+                                >
+                                <input
+                                        type="text"
+                                        placeholder="Enter address"
+                                        class="form-control"
+                                        id="address"
+                                        name="address"
+                                        value=""
+                                />
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="phone"
+                                >Phone<span class="text-danger">*</span></label
+                                >
+                                <input
+                                        type="tel"
+                                        placeholder="Enter phone"
+                                        class="form-control"
+                                        id="phone"
+                                        name="phone"
+                                        value=""
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btn-create">
+                            Create
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>

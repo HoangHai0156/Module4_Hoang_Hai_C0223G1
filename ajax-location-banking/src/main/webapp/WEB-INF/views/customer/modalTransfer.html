@@ -1,0 +1,139 @@
+<th:block th:fragment="modalTransfer">
+  <div id="transfer"
+       data-backdrop="static" data-keyboard="false"
+       class="modal fade"
+       tabindex="-1"
+       aria-labelledby="exampleModalLabel"
+       aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Transfer</h5>
+          <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form class="card-body" id="transfer-form">
+          <div class="error-area hide"> </div>
+          <div class="row">
+            <div class="form-group col-lg-4">
+              <label for="name-transfer">Sender Name</label>
+              <input
+                      type="text"
+                      readonly
+                      placeholder="Enter name"
+                      class="form-control"
+                      id="name-transfer"
+              />
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="email-transfer">Email address</label>
+              <input
+                      type="email"
+                      readonly
+                      placeholder="Enter email"
+                      class="form-control"
+                      id="email-transfer"
+              />
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="address-transfer">Address</label>
+              <input
+                      type="text"
+                      readonly
+                      placeholder="Enter email"
+                      class="form-control"
+                      id="address-transfer"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-lg-4">
+              <label for="phone-transfer">Phone</label>
+              <input
+                      type="text"
+                      readonly
+                      placeholder="Enter email"
+                      class="form-control"
+                      id="phone-transfer"
+              />
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="balance-transfer">Sender Current Balance</label>
+              <input
+                      type="text"
+                      readonly
+                      placeholder="Enter balance"
+                      class="form-control"
+                      id="balance-transfer"
+              />
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="recipient-transfer-id">Recipient</label>
+              <select
+                      class="form-control"
+                      name="recipient-transfer-id"
+                      id="recipient-transfer-id"
+              >
+                <option></option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-lg-4">
+              <label for="trans-amount-transfer">Transfer amount</label>
+              <input
+                      type="text"
+                      placeholder="Enter Transaction Amount"
+                      class="form-control"
+                      id="trans-amount-transfer"
+                      name="trans-amount-transfer"
+              />
+            </div>
+            <div class="form-group col-lg-4">
+              <label for="fees-transfer">Fees (%)</label>
+              <input
+                      readonly
+                      type="number"
+                      class="form-control"
+                      id="fees-transfer"
+                      value="10"
+              />
+            </div>
+
+            <div class="form-group col-lg-4">
+              <label for="total-transfer"
+              >Total amount of transaction</label
+              >
+              <input
+                      type="number"
+                      readonly
+                      class="form-control"
+                      id="total-transfer"
+                      name="total-transfer"
+              />
+            </div>
+          </div>
+
+          <div class="form-group text-left mb-0">
+            <button
+                    type="submit"
+                    id="btn-transfer"
+                    class="btn btn-success waves-effect waves-light mr-1"
+            >
+              <i class="fas fa-exchange-alt"></i>
+              Transfer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</th:block>

@@ -1,0 +1,85 @@
+header{
+    background-color: #299be4;
+    height: 100px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.container-fluid {
+    --bs-gutter-x: 0;
+}
+
+.header-right-button{
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+.modal-dialog{
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.error{
+    color: red;
+}
+.show {
+    display: block !important;
+}
+
+.hide {
+    display: none;
+}
+
+footer {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    height: auto;
+
+    margin-bottom: 0 !important;
+    width: 100%;
+    background-color: #cacaca;
+}
+
+footer .container {
+    padding: 15px 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.error-area {
+    background-color: #ffd8d8;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.error-area.show label {
+    display: list-item;
+    color: #be0f0f;
+    margin-left: 20px;
+}
+
+input.error {
+    border-color: red;
+}
+
+table td span.select-tab {
+    border-left-width: 7px;
+    border-left-style: solid;
+    min-width: 0;
+    display: block;
+    height: 24px;
+    margin: 0 0 0 -4px;
+    padding: 0;
+}
+
+table td span.selected {
+    border-left-color: #5cb85c;
+}
+
+table td span.unselected {
+    border-left-color: #dfdfdf;
+}

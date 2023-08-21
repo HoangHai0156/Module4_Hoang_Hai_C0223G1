@@ -1,0 +1,94 @@
+<th:block th:fragment="modalInfo">
+  <div id="infoCustomer"
+       data-backdrop="static" data-keyboard="false"
+       class="modal fade"
+       tabindex="-1"
+       aria-labelledby="exampleModalLabel"
+       aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Info Customer</h5>
+          <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form>
+          <div class="modal-body">
+            <span> </span>
+            <div class="form-group">
+              <label for="name-info">Name</label>
+              <input
+                      type="text"
+                      readonly
+                      placeholder="Enter name"
+                      class="form-control"
+                      id="name-info"
+                      value=""
+              />
+            </div>
+            <div class="form-group">
+              <label for="email-info">Email address</label>
+              <input
+                      type="email"
+                      readonly
+                      placeholder="Enter email"
+                      class="form-control"
+                      id="email-info"
+                      value=""
+              />
+            </div>
+            <div class="form-group">
+              <label for="address-info">Address</label>
+              <input
+                      type="text"
+                      readonly
+                      placeholder="Enter address"
+                      class="form-control"
+                      id="address-info"
+                      value=""
+              />
+            </div>
+            <div class="form-group">
+              <label for="phone-info">Phone</label>
+              <input
+                      type="tel"
+                      readonly
+                      placeholder="Enter phone"
+                      class="form-control"
+                      id="phone-info"
+                      value=""
+              />
+            </div>
+            <div class="form-group">
+              <label for="balance-info">Balance</label>
+              <input
+                      type="text"
+                      readonly
+                      placeholder="Enter balance"
+                      class="form-control"
+                      id="balance-info"
+                      value=""
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</th:block>

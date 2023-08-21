@@ -8,7 +8,7 @@ function renderCustomer(customer){
     return `
     <tr id="row_${id}">
         <th scope="row" class="customer-id">${id}</th>
-        <td class="customer-name">${customer.name}</td>
+        <td class="customer-name">${customer.fullName}</td>
         <td class="customer-email"> ${customer.email} </td>
         <td class="customer-address">${customer.address} </td>
         <td class="customer-phone">${customer.phone} </td>
@@ -71,7 +71,7 @@ const btnCreate = $("#btn-create");
 btnCreate.on('click', doCreate);
 
 function doCreate(){
-    var name = $("#name").val();
+    var fullName = $("#name").val();
     var email = $("#email").val();
     var address = $("#address").val();
     var phone = $("#phone").val();
@@ -79,7 +79,7 @@ function doCreate(){
     var deleted = 0;
 
     let requires = [];
-    if(name == "") requires.push("Tên không được để trống");
+    if(fullName == "") requires.push("Tên không được để trống");
     if(email == "") requires.push("Email không được để trống");
     if(address == "") requires.push("Địa chỉ không được để trống");
     if(phone == "") requires.push("Phone không được để trống");
@@ -97,7 +97,7 @@ function doCreate(){
         createDiv.html(resultStr)
     } else{
         var customer = {
-            name,
+            fullName,
             email,
             address,
             phone,
@@ -211,13 +211,13 @@ btnDoEdit.on('click', doEdit);
 
 function doEdit(){
 
-    let name = $("#name-edit").val();
+    let fullName = $("#name-edit").val();
     let email = $("#email-edit").val();
     let address = $("#address-edit").val();
     let phone = $("#phone-edit").val();
 
     let customer = {
-        name,
+        fullName,
         email,
         address,
         phone

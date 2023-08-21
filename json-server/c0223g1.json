@@ -1,0 +1,440 @@
+{
+  "customers": [
+    {
+      "id": 1,
+      "fullName": "Alabama",
+      "email": "alabama@gmail.com",
+      "address": "trai dat",
+      "phone": "0123456789",
+      "balance": 2000,
+      "deleted": 1
+    },
+    {
+      "id": 2,
+      "fullName": "Alabaong",
+      "email": "alabaong@gmail.com",
+      "address": "namek",
+      "phone": "0987654321",
+      "balance": 33900,
+      "deleted": 1
+    },
+    {
+      "fullName": "Hedda Tran",
+      "email": "sozyvybewu@mailinator.com",
+      "address": "Ut non et aut veniam",
+      "phone": "+1 (326) 175-1862",
+      "balance": 0,
+      "deleted": 1,
+      "id": 3
+    },
+    {
+      "fullName": "Walker Mccray",
+      "email": "zytyduky@mailinator.com",
+      "address": "Doloremque magni mag",
+      "phone": "+1 (845) 671-4693",
+      "balance": 0,
+      "deleted": 1,
+      "id": 4
+    },
+    {
+      "fullName": "Josiah Berry",
+      "email": "coqyr@mailinator.com",
+      "address": "Cillum deserunt dese",
+      "phone": "+1 (956) 462-6498",
+      "balance": 100,
+      "deleted": 0,
+      "id": 5
+    },
+    {
+      "fullName": "Hasad Rowe",
+      "email": "zazulec@mailinator.com",
+      "address": "Non ullamco distinct",
+      "phone": "+1 (193) 495-2169",
+      "balance": 0,
+      "deleted": 1,
+      "id": 6
+    },
+    {
+      "fullName": "Charde Barlow",
+      "email": "vetenofoda@mailinator.com",
+      "address": "Cupidatat do iure qu",
+      "phone": "+1 (834) 914-5467",
+      "balance": 0,
+      "deleted": 1,
+      "id": 7
+    },
+    {
+      "fullName": "Harriet Guy",
+      "email": "caro@mailinator.com",
+      "address": "Asperiores laboriosa",
+      "phone": "+1 (493) 659-9789",
+      "balance": 0,
+      "deleted": 0,
+      "id": 8
+    },
+    {
+      "fullName": "Jillian Garrison",
+      "email": "juhokegi@mailinator.com",
+      "address": "Adipisci inventore q",
+      "phone": "+1 (455) 386-4257",
+      "balance": 0,
+      "deleted": 1,
+      "id": 9
+    },
+    {
+      "fullName": "Hamish Mccarty",
+      "email": "cizihic@mailinator.com",
+      "address": "Dolore aliquid dolor",
+      "phone": "+1 (936) 496-2347",
+      "balance": 8890,
+      "deleted": 0,
+      "id": 10
+    },
+    {
+      "fullName": "Illana Wilcox",
+      "email": "varokalati@mailinator.com",
+      "address": "Nihil atque qui hic ",
+      "phone": "+1 (867) 616-1452",
+      "balance": 0,
+      "deleted": 0,
+      "id": 11
+    },
+    {
+      "fullName": "Jin Alvarez DSE",
+      "email": "voza@mailinator.com",
+      "address": "Duis repellendus La",
+      "phone": "+1 (287) 959-2755",
+      "balance": 0,
+      "deleted": 0,
+      "id": 12
+    },
+    {
+      "fullName": "Rana Cooley",
+      "email": "xymasune@mailinator.com",
+      "address": "Quia quasi maxime se",
+      "phone": "+1 (239) 663-1202",
+      "balance": 4000,
+      "deleted": 1,
+      "id": 13
+    },
+    {
+      "fullName": "Urielle Hopkins DSE FGH",
+      "email": "ligyciwexe@mailinator.com",
+      "address": "Est natus nostrum i",
+      "phone": "+1 (403) 768-5809",
+      "balance": 1000,
+      "deleted": 0,
+      "id": 14
+    },
+    {
+      "fullName": "Reuben Holman",
+      "email": "kyfal@mailinator.com",
+      "address": "Natus ipsa voluptas",
+      "phone": "+1 (369) 312-4293",
+      "balance": 0,
+      "deleted": 0,
+      "id": 15
+    },
+    {
+      "fullName": "Yen Mason",
+      "email": "ficifi@mailinator.com",
+      "address": "Harum aperiam occaec",
+      "phone": "+1 (994) 495-1991",
+      "balance": 0,
+      "deleted": 0,
+      "id": 16
+    },
+    {
+      "fullName": "Fuller Tyson",
+      "email": "lilajerod@mailinator.com",
+      "address": "Quo sed atque sit v",
+      "phone": "+1 (678) 697-7909",
+      "balance": 0,
+      "deleted": 0,
+      "id": 17
+    },
+    {
+      "fullName": "Janna Mccormick GHJ",
+      "email": "hygex@mailinator.com",
+      "address": "Non delectus ad sit",
+      "phone": "+1 (905) 809-6763",
+      "balance": 0,
+      "deleted": 0,
+      "id": 18
+    },
+    {
+      "fullName": "Sopoline Barnes",
+      "email": "wabaqivo@mailinator.com",
+      "address": "Numquam ipsa ullam ",
+      "phone": "+1 (107) 331-7668",
+      "balance": 0,
+      "deleted": 0,
+      "id": 19
+    },
+    {
+      "id": 20,
+      "fullName": "Jack Stewart",
+      "email": "digir@mailinator.com",
+      "phone": "+1 (487) 708-7791",
+      "balance": 0,
+      "address": "Esse sint non ipsam",
+      "deleted": 0
+    },
+    {
+      "id": 21,
+      "fullName": "Jack Stewart",
+      "email": "digir@mailinator.com",
+      "phone": "+1 (487) 708-7791",
+      "balance": 0,
+      "address": "Esse sint non ipsam",
+      "deleted": 0
+    },
+    {
+      "id": 24,
+      "fullName": "Hashim Nielsen",
+      "email": "cejuqani@mailinator.com",
+      "phone": "+1 (523) 851-8651",
+      "balance": 0,
+      "address": "Voluptas voluptatum ",
+      "deleted": 0
+    },
+    {
+      "id": 25,
+      "fullName": "Rina Long",
+      "email": "xagywox@mailinator.com",
+      "phone": "+1 (957) 313-2402",
+      "balance": 0,
+      "address": "Aperiam quidem cumqu",
+      "deleted": 1
+    },
+    {
+      "id": 26,
+      "fullName": "Hayden Hall",
+      "email": "dejylun@mailinator.com",
+      "phone": "+1 (363) 288-2316",
+      "balance": 0,
+      "address": "Aliqua Culpa conseq",
+      "deleted": 1
+    },
+    {
+      "id": 27,
+      "fullName": "Gray Allison",
+      "email": "byma@mailinator.com",
+      "phone": "+1 (696) 735-3418",
+      "balance": 0,
+      "address": "Velit nesciunt max",
+      "deleted": 0
+    },
+    {
+      "id": 28,
+      "fullName": "Colby Levine",
+      "email": "zanekem@mailinator.com",
+      "phone": "+1 (548) 873-2628",
+      "balance": 1200,
+      "address": "Amet natus quaerat ",
+      "deleted": 0
+    },
+    {
+      "id": 29,
+      "fullName": "Ruth Mcdaniel",
+      "email": "nito@mailinator.com",
+      "phone": "+1 (383) 199-7833",
+      "balance": 200,
+      "address": "Atque minima dolorem",
+      "deleted": 0
+    },
+    {
+      "id": 30,
+      "fullName": "Denise Koch",
+      "email": "tefakumed@mailinator.com",
+      "phone": "+1 (339) 228-6556",
+      "balance": 280,
+      "address": "Dolor quas magni nos",
+      "deleted": 1
+    },
+    {
+      "id": 31,
+      "fullName": "Astra Rojas",
+      "email": "momawit@mailinator.com",
+      "phone": "+1 (428) 291-5697",
+      "balance": 0,
+      "address": "Commodi quia saepe p",
+      "deleted": 0
+    },
+    {
+      "id": 32,
+      "fullName": "Juliet Boyer",
+      "email": "vydogyxex@mailinator.com",
+      "phone": "+1 (532) 904-2343",
+      "balance": 0,
+      "address": "Non consequatur Dig",
+      "deleted": 0
+    },
+    {
+      "id": 33,
+      "fullName": "Guinevere Rose",
+      "email": "lexy@mailinator.com",
+      "phone": "+1 (196) 857-2921",
+      "balance": 0,
+      "address": "Aut quia iure sed od",
+      "deleted": 0
+    },
+    {
+      "id": 34,
+      "fullName": "Basil Bolton",
+      "email": "karuquhi@mailinator.com",
+      "phone": "+1 (612) 467-2218",
+      "balance": 0,
+      "address": "Doloremque impedit ",
+      "deleted": 1
+    },
+    {
+      "id": 35,
+      "fullName": "Xerxes Schroeder ghj",
+      "email": "bykodiko@mailinator.com",
+      "phone": "+1 (226) 708-4425",
+      "balance": 0,
+      "address": "Voluptas est iure to",
+      "deleted": 0
+    },
+    {
+      "id": 36,
+      "fullName": "Brynn Puckett",
+      "email": "morujynida@mailinator.com",
+      "phone": "+1 (964) 545-5986",
+      "balance": 1100,
+      "address": "Voluptatem aut verit",
+      "deleted": 0
+    }
+  ],
+  "deposits": [
+    {
+      "customerId": 1,
+      "transactionAmount": 2000,
+      "id": 1
+    },
+    {
+      "customerId": 10,
+      "transactionAmount": 10000,
+      "id": 2
+    },
+    {
+      "customerId": 28,
+      "transactionAmount": 200,
+      "id": 3
+    },
+    {
+      "customerId": 30,
+      "transactionAmount": 300,
+      "id": 4
+    },
+    {
+      "customerId": 30,
+      "transactionAmount": 300,
+      "id": 5
+    },
+    {
+      "customerId": 36,
+      "transactionAmount": 0,
+      "id": 6
+    },
+    {
+      "customerId": 36,
+      "transactionAmount": 1100,
+      "id": 7
+    }
+  ],
+  "withdraws": [
+    {
+      "customerId": 2,
+      "transactionAmount": 2000,
+      "id": 1
+    },
+    {
+      "customerId": 14,
+      "transactionAmount": 2000,
+      "id": 3
+    },
+    {
+      "customerId": 14,
+      "transactionAmount": 500,
+      "id": 4
+    },
+    {
+      "customerId": 30,
+      "transactionAmount": 100,
+      "id": 5
+    },
+    {
+      "customerId": 10,
+      "transactionAmount": 1000,
+      "id": 6
+    }
+  ],
+  "transfers": [
+    {
+      "id": 1,
+      "senderId": 1,
+      "recipientId": 2,
+      "transferAmount": 1000,
+      "transactionAmount": 1100,
+      "feeAmount": 100
+    },
+    {
+      "senderId": 14,
+      "recipientId": 13,
+      "transferAmount": 1000,
+      "transactionAmount": 1100,
+      "feeAmount": 100,
+      "id": 2
+    },
+    {
+      "senderId": 14,
+      "recipientId": 13,
+      "transferAmount": 1000,
+      "transactionAmount": 1100,
+      "feeAmount": 100,
+      "id": 3
+    },
+    {
+      "senderId": 10,
+      "recipientId": 28,
+      "transferAmount": 100,
+      "transactionAmount": 110.00000000000001,
+      "feeAmount": 10.000000000000014,
+      "id": 4
+    },
+    {
+      "senderId": 10,
+      "recipientId": 28,
+      "transferAmount": 1000,
+      "transactionAmount": 1100,
+      "feeAmount": 100,
+      "id": 5
+    },
+    {
+      "senderId": 14,
+      "recipientId": 28,
+      "transferAmount": 1000,
+      "transactionAmount": 1100,
+      "feeAmount": 100,
+      "id": 6
+    },
+    {
+      "senderId": 30,
+      "recipientId": 29,
+      "transferAmount": 200,
+      "transactionAmount": 220.00000000000003,
+      "feeAmount": 20.00000000000003,
+      "id": 7
+    },
+    {
+      "senderId": 10,
+      "recipientId": 5,
+      "transferAmount": 100,
+      "transactionAmount": 110.00000000000001,
+      "feeAmount": 10.000000000000014,
+      "id": 8
+    }
+  ]
+}

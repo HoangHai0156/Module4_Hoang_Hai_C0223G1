@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Videos list</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link href="/list.css">
+
+</head>
+<body>
+<div>
+    <button class="btn btn-outline-primary mb-2" id="create" data-toggle="modal" data-target="#modalCreate">Thêm Video</button>
+    <table class="table" id="videosTable">
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Playlist</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+
+<th:block th:replace="modalCreate" />
+<th:block th:replace="modalUpdate" />
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="/app.js"></script>
+
+
+<script>
+    const page = {
+        url: {
+            getAllVideos: 'http://localhost:28001/api/videos',
+            getVideo: 'http://localhost:28001/api/videos/',
+            createVideo: 'http://localhost:28001/api/videos',
+            updateVideo: 'http://localhost:28001/api/videos/',
+            deleteVideo: 'http://localhost:28001/api/videos/'
+        },
+        elements: {},
+        loadData: {},
+        commands: {},
+        dialogs: {
+            elements: {},
+            command: {}
+        },
+        initializeControlEvent: {}
+    }
+
+    let videoId = 0;
+
+    page.elements.videosTableBody = $("#videosTable tbody");
+
+    page.elements.createBtn = $("#createBtn");
+    page.elements.modalCreate = $("#modalCreate");
+    page.elements.frmCreate = $("#frmCreate");
+    page.elements.name = $("#name");
+    page.elements.url = $("#url");
+    page.elements.description = $("#description");
+    page.elements.haiHuoc = $("#haiHuoc");
+    page.elements.kinhDi = $("#kinhDi");
+    page.elements.trinhTham = $("#trinhTham");
+    page.elements.hanhDong = $("#hanhDong");
+
+    page.elements.createBtnUp = $("#createBtnUp");
+    page.elements.modalUpdate = $("#modalUpdate");
+    page.elements.frmUpdate = $("#frmUpdate");
+    page.elements.nameUp = $("#nameUp");
+    page.elements.urlUp = $("#urlUp");
+    page.elements.descriptionUp = $("#descriptionUp");
+    page.elements.haiHuocUp = $("#haiHuocUp");
+    page.elements.kinhDiUp = $("#kinhDiUp");
+    page.elements.trinhThamUp = $("#trinhThamUp");
+    page.elements.hanhDongUp = $("#hanhDongUp");
+
+    page.commands.renderVideo = (video) =>{
+        return `
+            <tr id="tr_${video.id}">
+                <td>${video.title}</td>
+                <td>${video.description}</td>
+                <td>${video.playlist}</td>
+                <td>
+                    <button class="fas fa-edit btn btn-flat edit" data-id="${video.id}" data-toggle="modal" data-target="#modalUpdate">
+                    </button>
+                    <button class="fas fa-trash btn btn-flat delete" data-id="${video.id}">
+                    </button>
+                </td>
+            </tr>
+        `
+    }
+
+    page.commands.getAllVideos = () =>{
+        page.elements.videosTableBody.empty();
+
+        $.ajax({
+            type: "GET",
+            url: page.url.getAllVideos,
+        })
+            .done((videos) =>{
+                videos.forEach(video =>{
+                    const str = page.commands.renderVideo(video);
+                    page.elements.videosTableBody.prepend(str);
+                })
+            })
+            .fail((error) =>{
+                console.log(error)
+            })
+    }
+
+    page.commands.deleteVideo = (videoId) =>{
+        $.ajax({
+            type: "DELETE",
+            url: page.url.deleteVideo+videoId,
+        })
+            .done((data) =>{
+                const currentRow = $("#tr_"+videoId);
+                currentRow.remove();
+                App.showSuccessNotification("Xóa phim thành công");
+            })
+            .fail((error) =>{
+                console.log(error);
+            })
+    }
+
+    page.commands.createVideo = () =>{
+        const title = page.elements.name.val();
+        const description = page.elements.description.val();
+        let playlist = [];
+        const url = page.elements.url.val();
+
+        for (let i = 0; i < $(".tags:checked").length; i++) {
+            playlist.push(+$(".tags:checked")[i].value);
+        }
+
+        const video = {
+            title,
+            description,
+            playlist,
+            url
+        }
+
+        $.ajax({
+            headers:{
+                'accept': 'application/json',
+                'content-type': 'application/json'
+            },
+            type: 'POST',
+            url: page.url.createVideo,
+            data: JSON.stringify(video)
+        })
+            .done((video) =>{
+                const str = page.commands.renderVideo(video);
+                page.elements.videosTableBody.prepend(str);
+                App.showSuccessNotification("Thêm thành công");
+                page.elements.modalCreate.modal("hide");
+            })
+            .fail((error) =>{
+                console.log(error);
+            })
+    }
+
+    page.commands.updateVideo = (videoId) =>{
+        const title = page.elements.nameUp.val();
+        const description = page.elements.descriptionUp.val();
+        let playlist = [];
+        const url = page.elements.urlUp.val()
+
+        for (let i = 0; i < $(".tagsUp:checked").length; i++) {
+            playlist.push(+$(".tagsUp:checked")[i].value);
+        }
+
+        const video = {
+            title,
+            description,
+            playlist
+        }
+
+        $.ajax({
+            headers:{
+                'accept': 'application/json',
+                'content-type': 'application/json'
+            },
+            type: 'PATCH',
+            url: page.url.updateVideo+videoId,
+            data: JSON.stringify(video)
+        })
+            .done((video) =>{
+                const currentRow = $("#tr_"+videoId);
+                const str = page.commands.renderVideo(video);
+                page.elements.videosTableBody.replaceWith(str);
+                App.showSuccessNotification("Chỉnh sửa thành công")
+            })
+            .fail((error) =>{
+                console.log(error);
+            })
+    }
+
+    $.validator.addMethod("alphanumeric", function (value, element) {
+        return this.optional(element) || value.match(/^[a-zA-Z0-9 ]*$/);
+    }, "Tên không được chứa ký tự đặc biệt");
+
+    page.elements.frmCreate.validate({
+        rules: {
+            'name': {
+                required: true,
+                alphanumeric: true,
+                minlength: 8,
+                maxlength: 30,
+            },
+            'url': {
+                required: true,
+                url: true,
+            },
+            'tags': {
+                required: true,
+                minlength: 1,
+            }
+        },
+        messages: {
+            'name': {
+                required: 'Tên không được để trống',
+                minlength: 'Tên có ít nhất 8 ký tự',
+                maxlength: 'Tên có nhiều nhất 30 ký tự',
+            },
+            'url': {
+                required: 'URl là bắt buộc',
+                url: 'URL phải đúng định dạng',
+            },
+            'tags': {
+                required: 'Playlist là bắt buộc',
+                minlength: 'Chọn ít nhất một playlist',
+            }
+        },
+
+    })
+
+    page.elements.frmUpdate.validate({
+        rules: {
+            'nameUp': {
+                required: true,
+                alphanumeric: true,
+                minlength: 8,
+                maxlength: 30,
+            },
+            'urlUp': {
+                required: true,
+                url: true,
+            },
+            'tagsUp': {
+                required: true,
+                minLength: 1,
+            }
+        },
+        messages: {
+            'nameUp': {
+                required: 'Tên không được để trống',
+                minlength: 'Tên có ít nhất 8 ký tự',
+                maxlength: 'Tên có nhiều nhất 30 ký tự',
+            },
+            'urlUp': {
+                required: 'URl là bắt buộc',
+                url: 'URL phải đúng định dạng',
+            },
+            'tagsUp': {
+                required: 'Playlist là bắt buộc',
+                minLength: 'Chọn ít nhất một playlist',
+            }
+        },
+
+    })
+
+    page.initializeControlEvent = () => {
+        page.elements.videosTableBody.on('click', '.delete', function (){
+            videoId = $(this).data('id');
+            console.log(videoId);
+            App.showDeleteConfirmDialog().then((result) =>{
+                if (result.isConfirmed){
+                    page.commands.deleteVideo(videoId);
+                }
+            })
+        })
+
+        page.elements.createBtn.on('click', ()=>{
+            page.commands.createVideo();
+        })
+
+        page.elements.createBtnUp.on('click', ()=>{
+            page.commands.updateVideo(videoId);
+        })
+
+        page.elements.videosTableBody.on('click', '.edit', function (){
+            videoId = $(this).data('id');
+
+            $.ajax({
+                type: "GET",
+                url: page.url.getVideo+videoId,
+            })
+                .done((video) =>{
+                    page.elements.nameUp.val(video.title);
+                    page.elements.descriptionUp.val(video.description);
+                    page.elements.urlUp.val(video.url);
+                    // page.elements.url.val(video.url);
+                })
+                .fail((error) =>{
+                    console.log(error);
+                })
+        })
+
+    }
+
+    page.loadData = () => {
+        page.commands.getAllVideos();
+    }
+
+    $(() => {
+        page.loadData();
+        page.initializeControlEvent();
+    })
+</script>
+</body>
+</html>

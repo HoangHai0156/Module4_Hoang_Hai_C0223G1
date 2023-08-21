@@ -13,10 +13,12 @@ import com.cg.utils.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -66,7 +68,7 @@ public class CustomerController {
         }
         Customer customer = customerOptional.get();
         if (customer.isDeleted()) {
-            return "redirect:/errors/404";
+            return "errors/404";
         }
 
         model.addAttribute("customer", customer);
@@ -116,14 +118,14 @@ public class CustomerController {
         if (!ValidateUtil.isAddressValid(customer.getAddress())) {
             errorsMap.put("addressInvalid", "Địa chỉ không hợp lệ. Địa chỉ trong khoảng 3-50 ký tự");
         }
-        if (!ValidateUtil.isPhoneValid(customer.getPhone())){
-            errorsMap.put("phoneInvalid","Phone không hợp lệ. Nhập theo định dạng +x (xxx) xxx-xxxx");
+        if (!ValidateUtil.isPhoneValid(customer.getPhone())) {
+            errorsMap.put("phoneInvalid", "Phone không hợp lệ. Nhập theo định dạng +x (xxx) xxx-xxxx");
         }
-        if (customerService.existsByEmailAndIdNot(customer.getEmail(), customer.getId())){
+        if (customerService.existsByEmailAndIdNot(customer.getEmail(), customer.getId())) {
             errorsMap.put("emailInvalid", "Email đã tồn tại");
         }
-        if (customerService.existsByPhoneAndIdNot(customer.getPhone(), customer.getId())){
-            errorsMap.put("phoneInvalid","Phone đã tồn tại");
+        if (customerService.existsByPhoneAndIdNot(customer.getPhone(), customer.getId())) {
+            errorsMap.put("phoneInvalid", "Phone đã tồn tại");
         }
     }
 
@@ -214,13 +216,27 @@ public class CustomerController {
     }
 
     @PostMapping("/deposit/{id}")
-    public ModelAndView doDeposit(@ModelAttribute Deposit deposit,
+    public ModelAndView doDeposit(@Valid @ModelAttribute Deposit deposit,
+                                  BindingResult bindingResult,
                                   @PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (bindingResult.hasErrors()){
+            modelAndView.addObject("mess", "failText");
+            modelAndView.addObject("deposit", deposit);
+            modelAndView.setViewName("customer/deposit");
+
+            return modelAndView;
+        }
+
         Customer customer = deposit.getCustomer();
         BigDecimal transAmount = deposit.getTransactionAmount();
 
-        ModelAndView modelAndView = new ModelAndView();
 
+
+        if (transAmount == null) {
+            modelAndView.addObject("mess", "failBlank");
+        } else {
             if (transAmount.compareTo(BigDecimal.ZERO) > 0) {
                 BigDecimal balance = customer.getBalance();
                 balance = balance.add(transAmount);
@@ -236,15 +252,18 @@ public class CustomerController {
                     modelAndView.setViewName("errors/500");
                     return modelAndView;
                 }
+
                 modelAndView.addObject("mess", "success");
+                deposit.setTransactionAmount(BigDecimal.ZERO);
             } else {
-                modelAndView.addObject("mess", "fail");
+                modelAndView.addObject("mess", "failNegative");
             }
+        }
 
-            modelAndView.addObject("deposit", deposit);
-            modelAndView.setViewName("customer/deposit");
+        modelAndView.addObject("deposit", deposit);
+        modelAndView.setViewName("customer/deposit");
 
-            return modelAndView;
+        return modelAndView;
     }
 
     @GetMapping("/withdraw/{id}")
@@ -273,32 +292,48 @@ public class CustomerController {
     }
 
     @PostMapping("/withdraw/{id}")
-    public ModelAndView doWithdraw(@ModelAttribute Withdraw withdraw,
+    public ModelAndView doWithdraw(@Valid @ModelAttribute Withdraw withdraw,
+                                   BindingResult bindingResult,
                                    @PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        if(bindingResult.hasErrors()){
+            modelAndView.addObject("mess", "failText");
+            modelAndView.addObject("withdraw", withdraw);
+            modelAndView.setViewName("customer/withdraw");
+
+            return modelAndView;
+        }
+
         Customer customer = withdraw.getCustomer();
         BigDecimal transAmount = withdraw.getTransactionAmount();
 
-        ModelAndView modelAndView = new ModelAndView();
-
-        if (transAmount.compareTo(BigDecimal.ZERO) > 0 && transAmount.compareTo(customer.getBalance()) < 0) {
-            BigDecimal balance = customer.getBalance();
-            balance = balance.subtract(transAmount);
-            customer.setBalance(balance);
-
-            withdraw.setId(null);
-            customer.setId(id);
-            withdraw.setCustomer(customer);
-
-            try {
-                customerService.doWithdraw(withdraw, customer);
-            } catch (Exception exception) {
-                modelAndView.setViewName("errors/500");
-                return modelAndView;
-            }
-
-            modelAndView.addObject("mess", "success");
+        if (transAmount == null) {
+            modelAndView.addObject("mess", "failBlank");
         } else {
-            modelAndView.addObject("mess", "fail");
+            if (transAmount.compareTo(BigDecimal.ZERO) > 0 && transAmount.compareTo(customer.getBalance()) < 0) {
+                BigDecimal balance = customer.getBalance();
+                balance = balance.subtract(transAmount);
+                customer.setBalance(balance);
+
+                withdraw.setId(null);
+                customer.setId(id);
+                withdraw.setCustomer(customer);
+
+                try {
+                    customerService.doWithdraw(withdraw, customer);
+                } catch (Exception exception) {
+                    modelAndView.setViewName("errors/500");
+                    return modelAndView;
+                }
+
+                modelAndView.addObject("mess", "success");
+                withdraw.setTransactionAmount(BigDecimal.ZERO);
+            } else if (transAmount.compareTo(BigDecimal.ZERO) <= 0 ){
+                modelAndView.addObject("mess", "failNegative");
+            }else {
+                modelAndView.addObject("mess", "failOverload");
+            }
         }
 
         modelAndView.addObject("withdraw", withdraw);
@@ -337,55 +372,80 @@ public class CustomerController {
 
     @PostMapping("/transfer/{id}")
     public ModelAndView doTransfer(@PathVariable Long id,
-                                   @ModelAttribute Transfer transfer) {
+                                   @Valid @ModelAttribute Transfer transfer,
+                                   BindingResult bindingResult) {
 
         ModelAndView modelAndView = new ModelAndView();
 
         Customer sender = transfer.getSender();
-        BigDecimal transactionAmount = transfer.getTransactionAmount();
-        BigDecimal transAmount = transfer.getTransferAmount();
-
-        if (transactionAmount.compareTo(sender.getBalance()) > 0 || transactionAmount.compareTo(BigDecimal.ZERO) < 0) {
-            modelAndView.addObject("mess", "fail");
-        } else {
-            Long recipientId = transfer.getRecipient().getId();
-            Optional<Customer> recipientOptional = customerService.findById(recipientId);
-            if (recipientOptional.isEmpty()) {
-                modelAndView.setViewName("errors/404");
-                return modelAndView;
-            }
-
-            Customer recipient = recipientOptional.get();
-            if (recipient.isDeleted()) {
-                modelAndView.setViewName("errors/404");
-                return modelAndView;
-            }
-
-            recipient.setBalance(transAmount.add(recipient.getBalance()));
-            sender.setBalance(sender.getBalance().subtract(transactionAmount));
-
-            transfer.setId(null);
-            transfer.setRecipient(recipient);
-            transfer.setFeeAmount(transactionAmount.subtract(transAmount));
-            sender.setId(id);
-            recipient.setId(recipientId);
-
-            try {
-                customerService.doTransfer(transfer, sender, recipient);
-            } catch (Exception e) {
-                modelAndView.setViewName("errors/500");
-                return modelAndView;
-            }
-
-            modelAndView.addObject("mess", "success");
-        }
-
         List<Customer> customers = customerService.findAll();
         List<Customer> customerList = customers.stream().filter(customer1 -> !Objects.equals(customer1.getId(), id)).collect(Collectors.toList());
 
         modelAndView.setViewName("customer/transfer");
         modelAndView.addObject("customer", sender);
         modelAndView.addObject("customerList", customerList);
+
+        if (bindingResult.hasErrors()){
+            modelAndView.addObject("mess", "failText");
+
+            return modelAndView;
+        }
+        String idRecipientStr = transfer.getRecipient().getId() + "";
+        Long recipientId = Long.parseLong(idRecipientStr);
+
+        if (id.equals(transfer.getRecipient().getId())){
+            modelAndView.addObject("mess", "failDuplicate");
+            return modelAndView;
+        }
+
+        BigDecimal transAmount = transfer.getTransferAmount();
+
+        if (transAmount == null){
+            modelAndView.addObject("mess", "failBlank");
+        }else {
+            BigDecimal transactionAmount = transAmount.multiply(BigDecimal.valueOf(1.1));
+
+            if (transactionAmount.compareTo(sender.getBalance()) > 0) {
+                modelAndView.addObject("mess", "failOverload");
+            }else if (transactionAmount.compareTo(BigDecimal.ZERO) <= 0){
+                modelAndView.addObject("mess", "failNegative");
+            }
+            else {
+//                Long recipientId = transfer.getRecipient().getId();
+                Optional<Customer> recipientOptional = customerService.findById(recipientId);
+                if (recipientOptional.isEmpty()) {
+                    modelAndView.setViewName("errors/404");
+                    return modelAndView;
+                }
+
+                Customer recipient = recipientOptional.get();
+                if (recipient.isDeleted()) {
+                    modelAndView.setViewName("errors/404");
+                    return modelAndView;
+                }
+
+                recipient.setBalance(transAmount.add(recipient.getBalance()));
+                sender.setBalance(sender.getBalance().subtract(transactionAmount));
+
+                transfer.setId(null);
+                transfer.setRecipient(recipient);
+                transfer.setFeeAmount(transactionAmount.subtract(transAmount));
+                sender.setId(id);
+                recipient.setId(recipientId);
+
+                try {
+                    customerService.doTransfer(transfer, sender, recipient);
+                } catch (Exception e) {
+                    modelAndView.setViewName("errors/500");
+                    return modelAndView;
+                }
+
+                transfer.setTransferAmount(BigDecimal.ZERO);
+                transfer.setTransactionAmount(BigDecimal.ZERO);
+                modelAndView.addObject("mess", "success");
+            }
+        }
+
         return modelAndView;
     }
 
